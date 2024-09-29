@@ -23,6 +23,11 @@ struct GershgorinDisc{T}
         return new{T}(center, convert(T, radius))
     end
 end
+"""
+    GershgorinDisc(x::Number, radius)
+
+Construct a `GershgorinDisc` from a real or complex number and a radius.
+"""
 GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
 GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
 "A alias to `GershgorinDisc`."
