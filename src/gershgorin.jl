@@ -1,7 +1,7 @@
 using LinearAlgebra: diag, checksquare
 using SplitApplyCombine: group
 
-export GershgorinDisc, Disc, list_discs, eigvals_extrema
+export GershgorinDisc, Disc, is_center_real, list_discs, eigvals_extrema
 
 struct GershgorinDisc{T}
     center::NTuple{2,T}
@@ -14,6 +14,8 @@ end
 GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
 GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
 const Disc = GershgorinDisc
+
+is_center_real(d::GershgorinDisc{T}) where {T} = d.center[end] == zero(T)
 
 """
     list_discs(A::AbstractMatrix)
