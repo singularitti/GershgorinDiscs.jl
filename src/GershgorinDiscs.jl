@@ -7,6 +7,10 @@ export GershgorinDisc, Disc, list_discs, eigvals_extrema
 struct GershgorinDisc{T}
     center::NTuple{2,T}
     radius::T
+    function GershgorinDisc(center::NTuple{2,S}, radius::R) where {S,R}
+        T = promote_type(S, R)
+        return new{T}(center, convert(T, radius))
+    end
 end
 GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
 GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
