@@ -46,4 +46,6 @@ function eigvals_extrema(A::AbstractMatrix)
     return λₘᵢₙ, λₘₐₓ
 end
 
+include("plotting.jl")
+
 end
