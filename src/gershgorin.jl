@@ -75,7 +75,8 @@ function eigvals_extrema(A::AbstractMatrix)
         left, right = x - radius, x + radius
         if left < λₘᵢₙ
             λₘᵢₙ = left
-        elseif right > λₘₐₓ
+        end
+        if right > λₘₐₓ
             λₘₐₓ = right
         end
     end
