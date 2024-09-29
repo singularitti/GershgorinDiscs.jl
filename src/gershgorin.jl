@@ -70,6 +70,9 @@ function eigvals_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = Inf * oneunit(eltype(A)), -Inf * oneunit(eltype(A))
     discs = list_discs(A)
     for disc in discs
+        if !is_center_real(disc)
+            @warn "The center of the disc is not real, which may lead to inaccurate results."
+        end
         center, radius = disc.center, disc.radius
         x, _ = center
         left, right = x - radius, x + radius
