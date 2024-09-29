@@ -33,6 +33,6 @@ Order = [:type]
 
 ```@autodocs
 Modules = [GershgorinDiscs]
-Private = false
+Private = true
 Order = [:function]
 ```
