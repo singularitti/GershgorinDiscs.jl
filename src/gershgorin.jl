@@ -76,3 +76,7 @@ function eigvals_extrema(A::AbstractMatrix)
     end
     return λₘᵢₙ, λₘₐₓ
 end
+
+Base.isapprox(a::GershgorinDisc, b::GershgorinDisc; kwargs...) =
+    isapprox(collect(a.center), collect(b.center); kwargs...) &&
+    isapprox(a.radius, b.radius; kwargs...)
