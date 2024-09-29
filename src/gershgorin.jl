@@ -86,13 +86,14 @@ Base.isapprox(a::GershgorinDisc, b::GershgorinDisc; kwargs...) =
     isapprox(collect(a.center), collect(b.center); kwargs...) &&
     isapprox(a.radius, b.radius; kwargs...)
 
-Base.in(number, disc::GershgorinDisc) = abs(Complex(number) - disc.center) <= disc.radius
+Base.in(number, disc::GershgorinDisc) =
+    abs(complex(number) - complex(disc.center...)) <= disc.radius
 function Base.in(a::GershgorinDisc, b::GershgorinDisc)
     # The radius of the smaller disk must be less than or equal to the radius of the larger disk.
     if a.radius > b.radius
         return false
     else
         # The distance between the centers of the two disks must be less than or equal to the difference between their radii.
-        return abs(Complex(a.center) - Complex(b.center)) <= b.radius - a.radius
+        return abs(complex(a.center...) - complex(b.center...)) <= b.radius - a.radius
     end
 end
