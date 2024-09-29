@@ -1,6 +1,6 @@
 module GershgorinDiscs
 
-using LinearAlgebra: diag
+using LinearAlgebra: diag, checksquare
 
 export GershgorinDisc, Disc, list_discs, eigvals_extrema
 
@@ -11,6 +11,7 @@ end
 const Disc = GershgorinDisc
 
 function list_discs(A::AbstractMatrix)
+    checksquare(A)  # See https://discourse.julialang.org/t/120556/2
     centers = diag(A)
     row_discs = map(zip(eachrow(A), centers)) do (row, center)
         radius = sum(abs, row) - abs(center)
