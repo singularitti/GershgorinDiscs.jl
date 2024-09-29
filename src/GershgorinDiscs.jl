@@ -32,10 +32,11 @@ end
 
 function eigvals_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = zero(eltype(A)), zero(eltype(A))
-    centers = diag(A)
-    for (row, center) in zip(eachrow(A), centers)
-        radius = sum(abs, row) - abs(center)
-        left, right = center - radius, center + radius
+    discs = list_discs(A)
+    for disc in discs
+        center, radius = disc.center, disc.radius
+        x, _ = center
+        left, right = x - radius, x + radius
         if left < λₘᵢₙ
             λₘᵢₙ = left
         elseif right > λₘₐₓ
