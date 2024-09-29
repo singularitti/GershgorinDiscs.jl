@@ -1,4 +1,5 @@
 using LinearAlgebra: diag, checksquare
+using SplitApplyCombine: group
 
 export GershgorinDisc, Disc, list_discs, eigvals_extrema
 
@@ -16,16 +17,20 @@ const Disc = GershgorinDisc
 
 function list_discs(A::AbstractMatrix)
     checksquare(A)  # See https://discourse.julialang.org/t/120556/2
+    # Extract diagonal elements to be used as centers for Gershgorin discs
     centers = diag(A)
-    row_discs = map(zip(eachrow(A), centers)) do (row, center)
+    row_discs = map(zip(eachrow(A), centers)) do (row, center)  # Row-based Gershgorin discs
         radius = sum(abs, row) - abs(center)
         GershgorinDisc(center, radius)
     end
-    col_discs = map(zip(eachcol(A), centers)) do (col, center)
+    col_discs = map(zip(eachcol(A), centers)) do (col, center)  # Column-based Gershgorin discs
         radius = sum(abs, col) - abs(center)
         GershgorinDisc(center, radius)
     end
-    return vcat(row_discs, col_discs)
+    discs = vcat(row_discs, col_discs)  # Combine row and column discs into a single list
+    groups = group(disc -> disc.center, discs)  # Group the discs by their center
+    # For each group of discs with the same center, sort by radius and pick the smallest
+    return collect(first(sort(group; by=disc -> disc.radius)) for group in groups)
 end
 
 function eigvals_extrema(A::AbstractMatrix)
