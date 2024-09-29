@@ -15,6 +15,34 @@ GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
 GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
 const Disc = GershgorinDisc
 
+"""
+    list_discs(A::AbstractMatrix)
+
+Compute the Gershgorin discs for a square matrix `A`, returning a list of discs where each center is unique and has the smallest associated radius.
+
+This function calculates the discs based on both rows and columns. If multiple discs share the same center, the disc with the smallest radius is retained.
+
+## Arguments
+
+- `A::AbstractMatrix`: A square matrix (either real or complex).
+
+## Returns
+
+- A `Vector` of `GershgorinDisc` objects. Each disc corresponds to a unique center (diagonal element of the matrix `A`) with the smallest radius.
+
+## Examples
+
+```jldoctest
+julia> A = [4.0 1.0; 0.5 3.0]
+2×2 Matrix{Float64}:
+ 4.0  1.0
+ 0.5  3.0
+
+julia> list_discs(A)
+2-element Vector{GershgorinDisc{Float64}}:
+ GershgorinDisc{Float64}((4.0, 0.0), 0.5)
+ GershgorinDisc{Float64}((3.0, 0.0), 0.5)
+"""
 function list_discs(A::AbstractMatrix)
     checksquare(A)  # See https://discourse.julialang.org/t/120556/2
     # Extract diagonal elements to be used as centers for Gershgorin discs
