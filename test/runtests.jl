@@ -1,4 +1,5 @@
 using GershgorinDiscs
+using LinearAlgebra: eigvals
 using Test
 
 @testset "GershgorinDiscs.jl" begin

@@ -1,5 +1,3 @@
-using LinearAlgebra: eigvals
-
 @testset "Example from Wikipedia" begin
     # See https://en.wikipedia.org/wiki/Gershgorin_circle_theorem#Example
     A = [
