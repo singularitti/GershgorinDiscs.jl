@@ -7,6 +7,9 @@ struct GershgorinDisc{T}
     center::NTuple{2,T}
     radius::T
     function GershgorinDisc(center::NTuple{2,S}, radius::R) where {S,R}
+        if radius < zero(radius)
+            throw(DomainError(radius, "radius must be non-negative!"))
+        end
         T = promote_type(S, R)
         return new{T}(center, convert(T, radius))
     end
