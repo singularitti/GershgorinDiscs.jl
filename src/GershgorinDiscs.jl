@@ -5,9 +5,11 @@ using LinearAlgebra: diag, checksquare
 export GershgorinDisc, Disc, list_discs, eigvals_extrema
 
 struct GershgorinDisc{T}
-    center::T
+    center::NTuple{2,T}
     radius::T
 end
+GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
+GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
 const Disc = GershgorinDisc
 
 function list_discs(A::AbstractMatrix)
