@@ -6,7 +6,7 @@
         1 1 2 1
         -1 -1 -1 -11
     ]
-    @test eigvals(A) ==
+    @test eigvals(A) ≈
         [-10.869923641698216, 1.9063276022174214, 7.917541527665002, 10.046054511815802]
     @test eigvals_extrema(A) == (-13.2, 12.0)
     @test minimum(eigvals(A)) >= minimum(eigvals_extrema(A))
