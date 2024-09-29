@@ -2,13 +2,26 @@ module GershgorinDiscs
 
 using LinearAlgebra: diag
 
-export GershgorinDisc, Disc, gershgorin_extrema
+export GershgorinDisc, Disc, list_discs, gershgorin_extrema
 
 struct GershgorinDisc{T}
     center::T
     radius::T
 end
 const Disc = GershgorinDisc
+
+function list_discs(A::AbstractMatrix)
+    centers = diag(A)
+    row_discs = map(zip(eachrow(A), centers)) do (row, center)
+        radius = sum(abs, row) - abs(center)
+        GershgorinDisc(center, radius)
+    end
+    col_discs = map(zip(eachcol(A), centers)) do (col, center)
+        radius = sum(abs, col) - abs(center)
+        GershgorinDisc(center, radius)
+    end
+    return vcat(row_discs, col_discs)
+end
 
 function gershgorin_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = zero(eltype(A)), zero(eltype(A))
