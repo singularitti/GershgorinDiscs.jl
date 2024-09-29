@@ -1,3 +1,8 @@
+@testset "Test with non-square matrices" begin
+    @test_throws DimensionMismatch list_discs(rand(3, 4))
+    @test_throws DimensionMismatch list_discs(rand(4, 3))
+end
+
 @testset "Example from Wikipedia" begin
     # See https://en.wikipedia.org/wiki/Gershgorin_circle_theorem#Example
     A = [
