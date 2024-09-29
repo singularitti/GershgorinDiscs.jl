@@ -61,6 +61,7 @@ julia> list_discs(A)
 2-element Vector{GershgorinDisc{Float64}}:
  GershgorinDisc{Float64}((4.0, 0.0), 0.5)
  GershgorinDisc{Float64}((3.0, 0.0), 0.5)
+```
 """
 function list_discs(A::AbstractMatrix)
     checksquare(A)  # See https://discourse.julialang.org/t/120556/2
@@ -108,12 +109,27 @@ function eigvals_extrema(A::AbstractMatrix)
     return λₘᵢₙ, λₘₐₓ
 end
 
+"""
+    isapprox(a::GershgorinDisc, b::GershgorinDisc; kwargs...)
+
+Check if two `GershgorinDisc` objects are approximately equal.
+"""
 Base.isapprox(a::GershgorinDisc, b::GershgorinDisc; kwargs...) =
     isapprox(collect(a.center), collect(b.center); kwargs...) &&
     isapprox(a.radius, b.radius; kwargs...)
 
+"""
+    in(number, disc::GershgorinDisc)
+
+Check if a number is within the Gershgorin disc.
+"""
 Base.in(number, disc::GershgorinDisc) =
     abs(complex(number) - complex(disc.center...)) <= disc.radius
+"""
+    in(a::GershgorinDisc, b::GershgorinDisc)
+
+Check if one Gershgorin disc is within another Gershgorin disc.
+"""
 function Base.in(a::GershgorinDisc, b::GershgorinDisc)
     # The radius of the smaller disk must be less than or equal to the radius of the larger disk.
     if a.radius > b.radius
