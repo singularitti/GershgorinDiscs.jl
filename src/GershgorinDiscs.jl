@@ -2,7 +2,7 @@ module GershgorinDiscs
 
 using LinearAlgebra: diag
 
-export GershgorinDisc, Disc, list_discs, gershgorin_extrema
+export GershgorinDisc, Disc, list_discs, eigvals_extrema
 
 struct GershgorinDisc{T}
     center::T
@@ -23,7 +23,7 @@ function list_discs(A::AbstractMatrix)
     return vcat(row_discs, col_discs)
 end
 
-function gershgorin_extrema(A::AbstractMatrix)
+function eigvals_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = zero(eltype(A)), zero(eltype(A))
     centers = diag(A)
     for (row, center) in zip(eachrow(A), centers)
