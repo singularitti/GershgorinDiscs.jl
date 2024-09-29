@@ -3,6 +3,15 @@ using SplitApplyCombine: group
 
 export GershgorinDisc, Disc, is_center_real, list_discs, eigvals_extrema
 
+"""
+    GershgorinDisc{T}
+
+Represent a Gershgorin disc in the complex plane associated with a matrix.
+
+# Arguments
+- `center`: a tuple `(real_part, imaginary_part)` representing the center of the disc.
+- `radius`: a non-negative real number representing the radius of the disc.
+"""
 struct GershgorinDisc{T}
     center::NTuple{2,T}
     radius::T
@@ -16,8 +25,14 @@ struct GershgorinDisc{T}
 end
 GershgorinDisc(x::Number, radius) = GershgorinDisc((x, zero(x)), radius)
 GershgorinDisc(center::Complex{T}, radius) where {T} = GershgorinDisc(reim(center), radius)
+"A alias to `GershgorinDisc`."
 const Disc = GershgorinDisc
 
+"""
+    is_center_real(d::GershgorinDisc)
+
+Check whether the center of the given `GershgorinDisc` is real.
+"""
 is_center_real(d::GershgorinDisc{T}) where {T} = d.center[end] == zero(T)
 
 """
@@ -27,16 +42,10 @@ Compute the Gershgorin discs for a square matrix `A`, returning a list of discs 
 
 This function calculates the discs based on both rows and columns. If multiple discs share the same center, the disc with the smallest radius is retained.
 
-## Arguments
-
-- `A::AbstractMatrix`: A square matrix (either real or complex).
-
-## Returns
-
-- A `Vector` of `GershgorinDisc` objects. Each disc corresponds to a unique center (diagonal element of the matrix `A`) with the smallest radius.
+# Arguments
+- `A::AbstractMatrix`: a square matrix (either real or complex).
 
 ## Examples
-
 ```jldoctest
 julia> A = [4.0 1.0; 0.5 3.0]
 2×2 Matrix{Float64}:
@@ -66,6 +75,14 @@ function list_discs(A::AbstractMatrix)
     return collect(first(sort(group; by=disc -> disc.radius)) for group in groups)
 end
 
+"""
+    eigvals_extrema(A::AbstractMatrix)
+
+Estimate the minimum and maximum eigenvalues of a square matrix `A` using Gershgorin circle theorem.
+
+This function computes the Gershgorin discs for `A` and returns the smallest and largest values
+that any eigenvalue could have based on the discs.
+"""
 function eigvals_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = Inf * oneunit(eltype(A)), -Inf * oneunit(eltype(A))
     discs = list_discs(A)
