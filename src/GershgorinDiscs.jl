@@ -2,7 +2,13 @@ module GershgorinDiscs
 
 using LinearAlgebra: diag
 
-export gershgorin_extrema
+export GershgorinDisc, Disc, gershgorin_extrema
+
+struct GershgorinDisc{T}
+    center::T
+    radius::T
+end
+const Disc = GershgorinDisc
 
 function gershgorin_extrema(A::AbstractMatrix)
     λₘᵢₙ, λₘₐₓ = zero(eltype(A)), zero(eltype(A))
