@@ -67,7 +67,7 @@ function list_discs(A::AbstractMatrix)
 end
 
 function eigvals_extrema(A::AbstractMatrix)
-    λₘᵢₙ, λₘₐₓ = zero(eltype(A)), zero(eltype(A))
+    λₘᵢₙ, λₘₐₓ = Inf * oneunit(eltype(A)), -Inf * oneunit(eltype(A))
     discs = list_discs(A)
     for disc in discs
         center, radius = disc.center, disc.radius
