@@ -1,7 +1,7 @@
 using LinearAlgebra: diag, checksquare
 using SplitApplyCombine: group
 
-export GershgorinDisc, Disc, is_center_real, list_discs, eigvals_extrema
+export GershgorinDisc, Disc, is_center_real, is_concentric, list_discs, eigvals_extrema
 
 """
     GershgorinDisc{T}
@@ -39,6 +39,13 @@ const Disc = GershgorinDisc
 Check whether the center of the given `GershgorinDisc` is real.
 """
 is_center_real(d::GershgorinDisc{T}) where {T} = d.center[end] == zero(T)
+
+"""
+    is_concentric(a::GershgorinDisc, b::GershgorinDisc)
+
+Check whether two `GershgorinDisc` objects are concentric.
+"""
+is_concentric(a::GershgorinDisc, b::GershgorinDisc) = a.center == b.center
 
 """
     list_discs(A::AbstractMatrix)
