@@ -24,7 +24,10 @@ end
         1 1 2 1
         -1 -1 -1 -11
     ]
-    @test all(list_discs(A) .≈ [Disc(10, 2), Disc(8, 0.6), Disc(2, 1.2), Disc(-11, 2.2)])
+    @test all(
+        list_discs(A) .≈
+        [Disc((10, 0), 2), Disc((8, 0), 0.6), Disc((2, 0), 1.2), Disc((-11, 0), 2.2)],
+    )
 end
 
 @testset "Test matrices with all negative eigenvalues and small Gershgorin disk radii" begin
