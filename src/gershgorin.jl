@@ -50,9 +50,9 @@ is_concentric(a::GershgorinDisc, b::GershgorinDisc) = a.center == b.center
 """
     list_discs(A::AbstractMatrix)
 
-Compute the Gershgorin discs for a square matrix `A`, returning a list of discs where each center is unique and has the smallest associated radius.
+Compute the Gershgorin discs for a square matrix.
 
-This function calculates the discs based on both rows and columns. If multiple discs share the same center, the disc with the smallest radius is retained.
+Each disc has its center at a diagonal element, and its radius is the smaller value between the row and column sums for that element.
 
 # Arguments
 - `A::AbstractMatrix`: a square matrix (either real or complex).
