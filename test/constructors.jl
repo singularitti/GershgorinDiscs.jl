@@ -8,3 +8,9 @@ end
 @testset "Test constructing with negative radii" begin
     @test_throws DomainError GershgorinDisc(1.0, -2)
 end
+
+@testset "Test equality" begin
+    @test GershgorinDisc(1, 2) == GershgorinDisc(1.0, 2.0)
+    @test isequal(GershgorinDisc(1, 2), GershgorinDisc(4//4, 6//3))
+    @test GershgorinDisc(1, 2) ≈ GershgorinDisc(1.0, 2.0)
+end
