@@ -11,6 +11,11 @@ end
     @test list_discs(A) == [Disc(λ, 0) for λ in eigvals(A)]
 end
 
+@testset "Test transpose" begin
+    A = rand(10, 10)
+    @test list_discs(A) == list_discs(transpose(A))
+end
+
 @testset "Example from Wikipedia" begin
     # See https://en.wikipedia.org/wiki/Gershgorin_circle_theorem#Example
     A = [
