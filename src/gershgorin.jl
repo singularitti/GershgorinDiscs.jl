@@ -125,6 +125,9 @@ Base.isapprox(a::GershgorinDisc, b::GershgorinDisc; kwargs...) =
     isapprox(collect(a.center), collect(b.center); kwargs...) &&
     isapprox(a.radius, b.radius; kwargs...)
 
+Base.:(==)(a::GershgorinDisc, b::GershgorinDisc) =
+    a.center == b.center && a.radius == b.radius
+
 """
     in(number, disc::GershgorinDisc)
 
