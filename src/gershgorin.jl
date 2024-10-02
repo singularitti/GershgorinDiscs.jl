@@ -74,16 +74,11 @@ function list_discs(A::AbstractMatrix)
     checksquare(A)  # See https://discourse.julialang.org/t/120556/2
     # Extract diagonal elements to be used as centers for Gershgorin discs
     centers = diag(A)
-    row_discs = map(zip(eachrow(A), centers)) do (row, center)  # Row-based Gershgorin discs
-        radius = sum(abs, row) - abs(center)
-        GershgorinDisc(center, radius)
-    end
-    col_discs = map(zip(eachcol(A), centers)) do (col, center)  # Column-based Gershgorin discs
-        radius = sum(abs, col) - abs(center)
-        GershgorinDisc(center, radius)
-    end
-    return map(row_discs, col_discs) do row_disc, col_disc
-        row_disc.radius <= col_disc.radius ? row_disc : col_disc
+    # It's a square matrix, so we can iterate over rows and columns simultaneously.
+    return map(zip(eachrow(A), eachcol(A), centers)) do (row, col, center)
+        row_radius = sum(abs, row) - abs(center)
+        col_radius = sum(abs, col) - abs(center)
+        GershgorinDisc(center, minimum((row_radius, col_radius)))
     end
 end
 
