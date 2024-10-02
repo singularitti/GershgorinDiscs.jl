@@ -82,10 +82,9 @@ function list_discs(A::AbstractMatrix)
         radius = sum(abs, col) - abs(center)
         GershgorinDisc(center, radius)
     end
-    discs = vcat(row_discs, col_discs)  # Combine row and column discs into a single list
-    groups = group(disc -> disc.center, discs)  # Group the discs by their center
-    # For each group of discs with the same center, sort by radius and pick the smallest
-    return collect(first(sort(group; by=disc -> disc.radius)) for group in groups)
+    return map(row_discs, col_discs) do row_disc, col_disc
+        row_disc.radius <= col_disc.radius ? row_disc : col_disc
+    end
 end
 
 """
