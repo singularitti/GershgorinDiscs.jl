@@ -1,6 +1,14 @@
+using LinearAlgebra: diagm
+
 @testset "Test with non-square matrices" begin
     @test_throws DimensionMismatch list_discs(rand(3, 4))
     @test_throws DimensionMismatch list_discs(rand(4, 3))
+end
+
+@testset "Test on diagonal matrix" begin
+    # For a diagonal matrix, the Gershgorin discs coincide with the spectrum.
+    A = diagm(1:10)
+    @test list_discs(A) == [Disc(λ, 0) for λ in eigvals(A)]
 end
 
 @testset "Example from Wikipedia" begin
