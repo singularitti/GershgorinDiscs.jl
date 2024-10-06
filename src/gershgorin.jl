@@ -1,5 +1,4 @@
 using LinearAlgebra: diag, checksquare
-using SplitApplyCombine: group
 
 export GershgorinDisc, Disc, is_center_real, is_concentric, list_discs, eigvals_extrema
 
